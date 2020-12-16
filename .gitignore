@@ -61,9 +61,9 @@ coverage.xml
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-images/posters/*.jpg
 migrations/
-
+*.jpg
+*.jpeg
 
 # Flask stuff:
 instance/
