@@ -6,3 +6,4 @@ Design to run locally behind firewall.
 Requires a TMDB API KEY.
 
 Easy to setup, enjoy.
+
