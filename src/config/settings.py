@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = config['settings']['DJANGO_SECRET_KEY']
 
-DEBUG = True
+DEBUG = config['settings']['DEBUG_MODE']
 
 ALLOWED_HOSTS = ['*']
 
@@ -79,5 +79,14 @@ STATICFILES_DIRS = [
 # WHERE THE POSTERS ARE STORED
 POSTER_PATH = os.path.join(BASE_DIR, 'static', 'images', 'posters')
 
+
 # THE MOVIE DATABASE API KEY
+''' 
+https://developers.themoviedb.org
+The Movie Database (TMDb) is a community built movie and TV database. 
+Every piece of data has been added by our amazing community dating back to 2008. 
+TMDb's strong international focus and breadth of data is largely unmatched and 
+something we're incredibly proud of. Put simply, we live and breathe community 
+and that's precisely what makes us different.
+'''
 API_KEY = config['api_keys']['TMDB_API_KEY']
