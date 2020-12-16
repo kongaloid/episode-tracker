@@ -1,0 +1,87 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Episode Tracker App</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+        <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-0 pt-0 pb-0">
+                <div class="container-fluid pt-1 pb-1 pr-0 pl-0">
+                    <ul class="nav my-0 mr-md-auto">
+                        <span class="lead text-light">
+                            <b><a href="{% url 'home' %}" style="color:white;">
+                                EPISODE TRACKER
+                            </a></b>
+                        </span>
+                    </ul>
+                    {% if 'search' in request.path_info %}
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a href="{% url 'home' %}" 
+                                class="btn btn-warning btn-sm btn-block" 
+                                role="button" aria-pressed="true"><< back
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </nav>
+        </header>
+        <div class="container-fluid">
+            <div class="row bg-info">
+                <div class="col p-0">
+                    <div class="form-group mt-1 mb-1 pl-1 pr-1">
+                        <form method="get" action="{% url 'search_str' %}">
+                            <input class="form-control form-control-md" 
+                                type="text" 
+                                placeholder="Search Shows" 
+                                value="{% if request.GET %}{{ request.GET.search }}{% endif %}" 
+                                minlength="3" name="search" required>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show rounded-0 pl-2 pr-0 mb-0 mt-0" 
+                id="alert" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message|safe|truncatechars:58 }}
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+
+        <footer class="footer bg-dark">
+          <div class="container">
+              <span class="float-left">
+                  <a href="" class="text-muted m-1">footer</a>
+
+              </span>
+              <span class="float-right text-muted">{{ request.site.name }}</span>
+          </div>
+        </footer>
+
+        <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+        <script src="{% static 'js/popper.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script>
+            //auto close message alert
+            $("#alert").fadeTo(5000, 200).slideUp(200, function(){
+                $("#alert").alert('close');
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid mt-0">
+
+    {% if data_results %}
+        <div class="row">
+            <div class="col p-1 mb-1 bg-light text-dark text-center">
+                <b>Search results</b>
+            </div>
+        </div>
+        {% for i in data_results|dictsortreversed:"popularity" %}
+        <div class="row">
+            <div class="col pl-1 pt-1 pb-1 pr-0">  
+
+                <div class="float-left">
+                    <img class="rounded mr-2" src="https://image.tmdb.org/t/p/w92{{ i.image }}" width="50px" title="{{ i.pk }}">
+                </div>
+
+                <div class="float-right">
+                    {% if i.exists %}
+                        <img class="mr-2" src="{% static 'images/check2-circle.svg' %}" width="24px" height="24px">
+                    {% else %}
+                        <form method="get" action="{% url 'show_add' i.pk %}">
+                            <button type="submit" class="btn btn-sm btn-link">
+                                <img src="{% static 'images/plus-circle.svg' %}" width="24px" height="24px">
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+
+
+                <p class="lead mb-0">{{ i.name|truncatechars:30 }}</p>
+                {% if i.overview %}
+                    <span class="text-secondary m-0" style="line-height: 1.0; font-size: 14px;">{{ i.overview|safe|linebreaks|truncatechars:90 }}</span>
+                {% endif %}
+            </div>
+        </div>
+        <hr class="m-0">
+        {% endfor %}
+
+    {% else %}
+        <div class="row">
+            <div class="col">
+                <p class="lead">Sorry, no results.</p>
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

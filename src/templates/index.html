@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container-fluid mt-0">
+	
+	{% if object_list %}
+		<div class="row">
+			<div class="col p-1 mb-1 bg-light text-dark text-center">
+				<b>Tracking {{ object_list.count }} {% if object_list.count > 1 %}shows{% else %}show{% endif %}</b>
+			</div>
+		</div>
+
+		{% for i in object_list %}
+		<div class="row">
+			<div class="col pl-1 pr-0">  
+				<div class="float-left">
+					<img class="rounded mr-2" src="{% static 'images/posters' %}{{ i.poster_path }}" width="50px" title="{{ i.pk }}" />
+				</div>
+
+				<div class="float-right">
+					<form method="get" action="{% url 'show_remove' i.pk %}">
+						<button type="submit" class="btn btn-sm btn-link"><img src="{% static 'images/trash.svg' %}"></button>
+					</form>
+				</div>
+
+				<p class="lead mb-0">{{ i.name|truncatechars:30 }}</p>
+
+				{% if i.episode_number == 1 %}
+					<small>
+						<img class="mb-1" src="{% static 'images/star-fill.svg' %}" width="14px" height="14px" />
+						{% if i.episode_name %}
+							{{ i.episode_name }} (S{{ i.season_number }}E{{ i.episode_number }})
+						{% else %}
+							S{{ i.season_number }}E{{ i.episode_number }}
+						{% endif %}
+						premieres {{ i.next_episode_date|naturalday }}
+					</small>
+				{% elif not i.next_episode_date %}
+					<small class="text-info">On hiatus / No New Info</small>
+				{% else %}
+					<small>
+						{% if i.episode_name %}
+							{{ i.episode_name }} (S{{ i.season_number }}E{{ i.episode_number }})
+						{% else %}
+							S{{ i.season_number }}E{{ i.episode_number }}
+						{% endif %}
+						airs {{ i.next_episode_date|naturalday }}
+					</small>
+				{% endif %}
+			</div>
+		</div>
+		<hr style="margin: 2px;">
+		{% endfor %}
+
+	{% else %}
+			<p>No Shows in Database</p>
+	{% endif %}
+
+
+</div>
+
+{% endblock %}
